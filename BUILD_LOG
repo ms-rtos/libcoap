@@ -1,0 +1,48 @@
+./configure --disable-doxygen --disable-manpages --disable-dtls 
+
+make[2]: Entering directory '/home/user/work/libcoap-develop'
+  CC       src/libcoap_2_la-address.lo
+  CC       src/libcoap_2_la-async.lo
+  CC       src/libcoap_2_la-block.lo
+  CC       src/libcoap_2_la-coap_debug.lo
+  CC       src/libcoap_2_la-coap_event.lo
+  CC       src/libcoap_2_la-coap_hashkey.lo
+  CC       src/libcoap_2_la-coap_gnutls.lo
+  CC       src/libcoap_2_la-coap_io.lo
+  CC       src/libcoap_2_la-coap_mbedtls.lo
+  CC       src/libcoap_2_la-coap_notls.lo
+  CC       src/libcoap_2_la-coap_openssl.lo
+  CC       src/libcoap_2_la-coap_session.lo
+  CC       src/libcoap_2_la-coap_tcp.lo
+  CC       src/libcoap_2_la-coap_time.lo
+  CC       src/libcoap_2_la-coap_tinydtls.lo
+  CC       src/libcoap_2_la-encode.lo
+  CC       src/libcoap_2_la-mem.lo
+  CC       src/libcoap_2_la-net.lo
+src/net.c: In function ¡®coap_io_do_events¡¯:
+src/net.c:1565:7: warning: ignoring return value of ¡®read¡¯, declared with attribute warn_unused_result [-Wunused-result]
+       read(ctx->eptimerfd, &count, sizeof(count));
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  CC       src/libcoap_2_la-option.lo
+  CC       src/libcoap_2_la-pdu.lo
+  CC       src/libcoap_2_la-resource.lo
+  CC       src/libcoap_2_la-str.lo
+  CC       src/libcoap_2_la-subscribe.lo
+  CC       src/libcoap_2_la-uri.lo
+  CCLD     libcoap-2.la
+ar: `u' modifier ignored since `D' is the default (see `U')
+make[2]: Leaving directory '/home/user/work/libcoap-develop'
+Making all in tests
+make[2]: Entering directory '/home/user/work/libcoap-develop/tests'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/user/work/libcoap-develop/tests'
+Making all in examples
+make[2]: Entering directory '/home/user/work/libcoap-develop/examples'
+  CC       client.o
+  CCLD     coap-client
+  CC       coap-server.o
+  CCLD     coap-server
+  CC       coap-rd.o
+  CCLD     coap-rd
+make[2]: Leaving directory '/home/user/work/libcoap-develop/examples'
+make[1]: Leaving directory '/home/user/work/libcoap-develop'
