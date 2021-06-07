@@ -33,8 +33,8 @@ LOCAL_TARGET_NAME := coap_examples
 # Source list
 #*********************************************************************************************************
 LOCAL_SRCS := \
-src/coap_client_example_main.c \
-src/coap_server_example_main.c
+src/coap_client_example.c \
+src/coap_server_example.c
 
 #*********************************************************************************************************
 # Header file search path (eg. LOCAL_INC_PATH := -I"Your header files search path")

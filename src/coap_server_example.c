@@ -16,42 +16,41 @@
 /* If want to change log level num to open log, don't forget to enlarge coap_example_task size*/
 #define COAP_LOGGING_LEVEL 0
 
-static char msrtos_data[100];
-static int msrtos_data_len = 0;
+static char test_data[100];
+static int test_data_len = 0;
 
 /*
  * The resource handler
  */
 static void
-hnd_msrtos_get(coap_context_t *ctx, coap_resource_t *resource,
-               coap_session_t *session,
-               coap_pdu_t *request, coap_binary_t *token,
-               coap_string_t *query, coap_pdu_t *response)
+hnd_test_get(coap_context_t *ctx, coap_resource_t *resource,
+             coap_session_t *session,
+             coap_pdu_t *request, coap_binary_t *token,
+             coap_string_t *query, coap_pdu_t *response)
 {
     coap_add_data_blocked_response(resource, session, request, response, token,
                                    COAP_MEDIATYPE_TEXT_PLAIN, 0,
-                                   (size_t)msrtos_data_len,
-                                   (const u_char *)msrtos_data);
+                                   (size_t)test_data_len,
+                                   (const u_char *)test_data);
 }
 
 static void
-hnd_msrtos_put(coap_context_t *ctx,
-               coap_resource_t *resource,
-               coap_session_t *session,
-               coap_pdu_t *request,
-               coap_binary_t *token,
-               coap_string_t *query,
-               coap_pdu_t *response)
+hnd_test_put(coap_context_t *ctx,
+             coap_resource_t *resource,
+             coap_session_t *session,
+             coap_pdu_t *request,
+             coap_binary_t *token,
+             coap_string_t *query,
+             coap_pdu_t *response)
 {
     size_t size;
     unsigned char *data;
 
     coap_resource_notify_observers(resource, NULL);
 
-    if (strcmp (msrtos_data, "no data") == 0) {
+    if (strcmp (test_data, "no data") == 0) {
         response->code = COAP_RESPONSE_CODE(201);
-    }
-    else {
+    } else {
         response->code = COAP_RESPONSE_CODE(204);
     }
 
@@ -59,16 +58,16 @@ hnd_msrtos_put(coap_context_t *ctx,
     (void)coap_get_data(request, &size, &data);
 
     if (size == 0) {      /* re-init */
-        snprintf(msrtos_data, sizeof(msrtos_data), "no data");
-        msrtos_data_len = strlen(msrtos_data);
+        snprintf(test_data, sizeof(test_data), "no data");
+        test_data_len = strlen(test_data);
     } else {
-        msrtos_data_len = size > sizeof (msrtos_data) ? sizeof (msrtos_data) : size;
-        memcpy (msrtos_data, data, msrtos_data_len);
+        test_data_len = size > sizeof (test_data) ? sizeof (test_data) : size;
+        memcpy (test_data, data, test_data_len);
     }
 }
 
 static void
-hnd_msrtos_delete(coap_context_t *ctx,
+hnd_test_delete(coap_context_t *ctx,
                   coap_resource_t *resource,
                   coap_session_t *session,
                   coap_pdu_t *request,
@@ -77,8 +76,8 @@ hnd_msrtos_delete(coap_context_t *ctx,
                   coap_pdu_t *response)
 {
     coap_resource_notify_observers(resource, NULL);
-    snprintf(msrtos_data, sizeof(msrtos_data), "no data");
-    msrtos_data_len = strlen(msrtos_data);
+    snprintf(test_data, sizeof(test_data), "no data");
+    test_data_len = strlen(test_data);
     response->code = COAP_RESPONSE_CODE(202);
 }
 
@@ -88,8 +87,8 @@ int main(int argc, char **argv)
     coap_address_t serv_addr;
     coap_resource_t *resource = NULL;
 
-    snprintf(msrtos_data, sizeof(msrtos_data), "no data");
-    msrtos_data_len = strlen(msrtos_data);
+    snprintf(test_data, sizeof(test_data), "no data");
+    test_data_len = strlen(test_data);
     coap_set_log_level(COAP_LOGGING_LEVEL);
 
     while (1) {
@@ -117,13 +116,13 @@ int main(int argc, char **argv)
            goto clean_up;
         }
 
-        resource = coap_resource_init(coap_make_str_const("msrtos"), 0);
+        resource = coap_resource_init(coap_make_str_const("test"), 0);
         if (!resource) {
            goto clean_up;
         }
-        coap_register_handler(resource, COAP_REQUEST_GET, hnd_msrtos_get);
-        coap_register_handler(resource, COAP_REQUEST_PUT, hnd_msrtos_put);
-        coap_register_handler(resource, COAP_REQUEST_DELETE, hnd_msrtos_delete);
+        coap_register_handler(resource, COAP_REQUEST_GET, hnd_test_get);
+        coap_register_handler(resource, COAP_REQUEST_PUT, hnd_test_put);
+        coap_register_handler(resource, COAP_REQUEST_DELETE, hnd_test_delete);
         /* We possibly want to Observe the GETs */
         coap_resource_set_get_observable(resource, 1);
         coap_add_resource(ctx, resource);
